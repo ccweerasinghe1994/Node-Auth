@@ -13,8 +13,14 @@
 
 <script>
 	const form = document.querySelector('form');
+	let passwordError = document.querySelector('.password.error');
+	let emailError = document.querySelector('.email.error');
 	form.addEventListener('submit', async (e) => {
 		e.preventDefault();
+
+		emailError.textContent = '';
+		passwordError.textContent = '';
+
 		const email = form.email.value;
 		const password = form.password.value;
 		try {
@@ -25,9 +31,8 @@
 			});
 			const data = await response.json();
 			if (data.errors) {
-				document.querySelector('.email.error').textContent = data.errors.email;
-				document.querySelector('.password.error').textContent =
-					data.errors.password;
+				emailError.textContent = data.errors.email;
+				passwordError.textContent = data.errors.password;
 			}
 			if (data.user) {
 				location.assign('/');
